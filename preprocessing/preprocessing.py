@@ -37,8 +37,8 @@ def main():
 
     movies_columns_general = ['Movies']  # I really enjoy watching movies.
 
-    music_genres = pd.read_csv('data/responses.csv', usecols=MUSIC_GENRES_COLUMNS)
-    movie_genres = pd.read_csv('data/responses.csv', usecols=MOVIE_GENRES_COLUMNS)
+    music_genres = pd.read_csv('../data/responses.csv', usecols=MUSIC_GENRES_COLUMNS).fillna(value=3.0)
+    movie_genres = pd.read_csv('../data/responses.csv', usecols=MOVIE_GENRES_COLUMNS).fillna(value=3.0)
 
     music_genres.to_csv('data/music_genres.csv', index=False)
     movie_genres.to_csv('data/movie_genres.csv', index=False)

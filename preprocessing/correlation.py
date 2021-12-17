@@ -4,8 +4,8 @@ from preprocessing import MUSIC_GENRES_COLUMNS, MOVIE_GENRES_COLUMNS
 
 
 def main():
-    music_genres = pd.read_csv('data/music_genres.csv')
-    movie_genres = pd.read_csv('data/movie_genres.csv')
+    music_genres = pd.read_csv('../data/music_genres.csv')
+    movie_genres = pd.read_csv('../data/movie_genres.csv')
 
     music_movies = pd.concat([music_genres, movie_genres], axis=1, keys=['music_genres', 'movie_genres'])
     correlation_matrix = music_movies.corr(method='spearman').loc['movie_genres', 'music_genres']
