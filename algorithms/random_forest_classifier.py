@@ -4,7 +4,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 
 from algorithms.metrics import custom_accuracy, test_sample_error_by_index, total_error_for_each_distance
-from preprocessing.preprocessing import MUSIC_GENRES_COLUMNS, MOVIE_GENRES_COLUMNS
+from preprocessing.preprocessing import MUSIC_GENRES_COLUMNS, MOVIE_GENRES_COLUMNS, get_genres
 
 
 def get_classifier_random_forest(music_genres: pd.DataFrame,
@@ -14,8 +14,7 @@ def get_classifier_random_forest(music_genres: pd.DataFrame,
 
 
 def main():
-    music_genres = pd.read_csv('../data/responses.csv', usecols=MUSIC_GENRES_COLUMNS).fillna(value=3.0)
-    movie_genres = pd.read_csv('../data/responses.csv', usecols=MOVIE_GENRES_COLUMNS).fillna(value=3.0)
+    music_genres, movie_genres = get_genres()
     music_genres_train, music_genres_test, movie_genres_train, movie_genres_test = train_test_split(music_genres,
                                                                                                     movie_genres,
                                                                                                     random_state=0)

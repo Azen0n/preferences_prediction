@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from preprocessing.preprocessing import MUSIC_GENRES_COLUMNS, MOVIE_GENRES_COLUMNS
+from preprocessing.preprocessing import MUSIC_GENRES_COLUMNS, MOVIE_GENRES_COLUMNS, get_genres
 from algorithms.decision_tree_classifier import get_classifier
 
 
@@ -16,8 +16,7 @@ def preferences_input(genres: pd.DataFrame) -> np.ndarray:
 
 
 def main():
-    music_genres = pd.read_csv('data/responses.csv', usecols=MUSIC_GENRES_COLUMNS).fillna(value=3.0)
-    movie_genres = pd.read_csv('data/responses.csv', usecols=MOVIE_GENRES_COLUMNS).fillna(value=3.0)
+    music_genres, movie_genres = get_genres()
     preferences = preferences_input(MUSIC_GENRES_COLUMNS)
     clf = get_classifier(music_genres, movie_genres)
     prediction = clf.predict(pd.DataFrame([preferences], columns=MUSIC_GENRES_COLUMNS))
