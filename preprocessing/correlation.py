@@ -29,7 +29,7 @@ def main():
                 x = x - 1
 
     plt.pcolor(p_array, cmap=cm.summer, edgecolors='k', linewidths=0.2)
-    plt.xticks(range(len(MUSIC_GENRES_COLUMNS)), MUSIC_GENRES_COLUMNS, rotation=45,  ha='right')
+    plt.xticks(range(len(MUSIC_GENRES_COLUMNS)), MUSIC_GENRES_COLUMNS, rotation=90,  ha='left')
     plt.yticks(range(len(MOVIE_GENRES_COLUMNS)), MOVIE_GENRES_COLUMNS, va="bottom")
     plt.subplots_adjust(bottom=0.3, left=0.2)
     plt.show()
