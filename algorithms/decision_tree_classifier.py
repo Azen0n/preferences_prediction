@@ -1,37 +1,10 @@
-from typing import Callable
-import pandas as pd
 import numpy as np
-from sklearn.base import ClassifierMixin
+import pandas as pd
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
 
-from algorithms.metrics import euclidean_distance, custom_accuracy
+from algorithms.metrics import euclidean_distance, custom_accuracy, test_sample_error_by_index, test_sample_total_error
 from preprocessing.preprocessing import MUSIC_GENRES_COLUMNS, MOVIE_GENRES_COLUMNS
-
-
-def test_sample_error_by_index(clf: ClassifierMixin,
-                               x_test: pd.DataFrame,
-                               y_test: pd.DataFrame,
-                               distance: Callable[[np.ndarray, np.ndarray], float],
-                               index: int = None) -> float:
-    """Prediction error of one test object by row index."""
-    if index is None:
-        index = np.random.randint(0, len(x_test))
-    prediction = clf.predict(x_test.iloc[[index]])[0]
-    real = y_test.iloc[[index]].values[0]
-    return distance(prediction, real)
-
-
-def test_sample_total_error(clf: ClassifierMixin,
-                            x_test: pd.DataFrame,
-                            y_test: pd.DataFrame,
-                            distance: Callable[[np.ndarray, np.ndarray], float]) -> float:
-    """Mean prediction error of whole test subset."""
-    y_predicted = clf.predict(x_test)
-    errors = []
-    for i in range(len(x_test)):
-        errors.append(distance(y_predicted[i], y_test.iloc[[i]].values[0]))
-    return float(np.mean(errors))
 
 
 def get_classifier(music_genres: pd.DataFrame,

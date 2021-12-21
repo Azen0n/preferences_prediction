@@ -2,23 +2,9 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
-from prettytable import PrettyTable
 
-from algorithms.metrics import chebyshev_distance, cosine_distance, euclidean_distance, \
-    manhattan_distance, custom_accuracy
+from algorithms.metrics import custom_accuracy, test_sample_error_by_index, total_error_for_each_distance
 from preprocessing.preprocessing import MUSIC_GENRES_COLUMNS, MOVIE_GENRES_COLUMNS
-from algorithms.decision_tree_classifier import test_sample_total_error, \
-    test_sample_error_by_index
-
-
-def calculating_distances(clf, music_test, movie_test):
-    dist = [chebyshev_distance, cosine_distance, euclidean_distance, manhattan_distance]
-    tab = PrettyTable()
-    tab.field_names = ['distance', 'values']
-    for distance in dist:
-        error = test_sample_total_error(clf, music_test, movie_test, distance)
-        tab.add_row([distance.__name__, error])
-    print(tab)
 
 
 def get_classifier_random_forest(music_genres: pd.DataFrame,
@@ -37,7 +23,7 @@ def main():
     for i in range(100):
         custom_error = test_sample_error_by_index(clf, music_genres_test, movie_genres_test, custom_accuracy, i)
         print(f'custom_error = {custom_error}')
-    calculating_distances(clf,music_genres_test,movie_genres_test)
+    total_error_for_each_distance(clf, music_genres_test, movie_genres_test)
 
 
 if __name__ == '__main__':
