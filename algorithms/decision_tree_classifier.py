@@ -5,8 +5,8 @@ from sklearn.base import ClassifierMixin
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
 
-from preferences_prediction.algorithms.metrics import euclidean_distance, custom_accuracy
-from preferences_prediction.preprocessing.preprocessing import MUSIC_GENRES_COLUMNS, MOVIE_GENRES_COLUMNS
+from algorithms.metrics import euclidean_distance, custom_accuracy
+from preprocessing.preprocessing import MUSIC_GENRES_COLUMNS, MOVIE_GENRES_COLUMNS
 
 
 def test_sample_error_by_index(clf: ClassifierMixin,

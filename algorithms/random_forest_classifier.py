@@ -4,10 +4,10 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from prettytable import PrettyTable
 
-from preferences_prediction.algorithms.metrics import chebyshev_distance, cosine_distance, euclidean_distance, \
+from algorithms.metrics import chebyshev_distance, cosine_distance, euclidean_distance, \
     manhattan_distance, custom_accuracy
-from preferences_prediction.preprocessing.preprocessing import MUSIC_GENRES_COLUMNS, MOVIE_GENRES_COLUMNS
-from preferences_prediction.algorithms.decision_tree_classifier import test_sample_total_error, \
+from preprocessing.preprocessing import MUSIC_GENRES_COLUMNS, MOVIE_GENRES_COLUMNS
+from algorithms.decision_tree_classifier import test_sample_total_error, \
     test_sample_error_by_index
 
 
