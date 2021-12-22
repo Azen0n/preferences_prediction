@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 
-from main import ROOT_DIR
+ROOT_DIR = os.path.join(os.path.realpath(os.path.dirname(__file__)), '../')
 
 
 MUSIC_GENRES_COLUMNS = ['Dance',

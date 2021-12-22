@@ -1,8 +1,10 @@
 from typing import Callable
+
 import numpy as np
 import pandas as pd
 from prettytable import PrettyTable
 from sklearn.base import ClassifierMixin
+from sklearn.model_selection import KFold
 
 
 def euclidean_distance(row1: np.ndarray, row2: np.ndarray) -> float:
@@ -50,7 +52,7 @@ def test_sample_total_error(clf: ClassifierMixin,
     errors = []
     for i in range(len(x_test)):
         errors.append(distance(y_predicted[i], y_test.iloc[[i]].values[0]))
-    return float(np.mean(errors))
+    return np.mean(errors)
 
 
 def total_error_for_each_distance(clf: ClassifierMixin,
@@ -63,3 +65,36 @@ def total_error_for_each_distance(clf: ClassifierMixin,
         error = test_sample_total_error(clf, music_test, movie_test, distance)
         table.add_row([distance.__name__, error])
     print(table)
+
+
+def split_in_k_folds(x: pd.DataFrame, y: pd.DataFrame, k: int):
+    kf = KFold(n_splits=k, shuffle=True)
+
+    x_train = []
+    x_test = []
+    y_train = []
+    y_test = []
+
+    for train_index, test_index in kf.split(x):
+        x_train.append(x.iloc[train_index, :])
+        x_test.append(x.iloc[test_index, :])
+        y_train.append(y.iloc[train_index, :])
+        y_test.append(y.iloc[test_index, :])
+
+    return x_train, x_test, y_train, y_test
+
+
+def cross_validation(get_classifier: Callable[[pd.DataFrame, pd.DataFrame, dict], object],
+                     kwargs: dict,
+                     x: pd.DataFrame,
+                     y: pd.DataFrame,
+                     k: int) -> float:
+    x_train, x_test, y_train, y_test = split_in_k_folds(x, y, k)
+
+    errors = []
+    for i in range(len(x_train)):
+        clf = get_classifier(x_train[i], y_train[i], kwargs)
+        error = test_sample_total_error(clf, x_test[i], y_test[i], euclidean_distance)
+        errors.append(error)
+
+    return np.mean(errors)
