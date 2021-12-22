@@ -2,8 +2,9 @@ import itertools
 from typing import Callable
 
 import pandas as pd
-from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
 
 from algorithms.metrics import euclidean_distance, test_sample_total_error
@@ -16,7 +17,7 @@ def total_error(x_train: pd.DataFrame,
                 y_test: pd.DataFrame,
                 classifier: Callable,
                 kwargs: dict) -> float:
-    clf = classifier(random_state=0, **kwargs)
+    clf = classifier(**kwargs)
     clf.fit(x_train, y_train)
     error = test_sample_total_error(clf, x_test, y_test, euclidean_distance)
     return error
@@ -73,6 +74,13 @@ def main():
         'min_samples_leaf': [i for i in range(1, 5)]
     }
 
+    knn_tuned_parameters = {
+        'n_neighbors': [i for i in range(21, 202, 2)],
+        'weights': ['uniform'],
+        'leaf_size': [i for i in range(3, 20)],
+        'metric': [euclidean_distance]
+    }
+
     music_genres, movie_genres = get_genres()
     dtc_best_parameters = best_parameters_search(music_genres,
                                                  movie_genres,
@@ -87,6 +95,13 @@ def main():
                                                  rfc_tuned_parameters)
 
     print(f'Best parameters of Random Forest Classifier: {rfc_best_parameters}')
+
+    knn_best_parameters = best_parameters_search(music_genres,
+                                                 movie_genres,
+                                                 KNeighborsClassifier,
+                                                 knn_tuned_parameters)
+
+    print(f'Best parameters of K-Nearest Neighbors: {knn_best_parameters}')
 
 
 if __name__ == '__main__':
