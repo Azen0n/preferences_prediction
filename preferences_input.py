@@ -20,6 +20,7 @@ def main():
     preferences = preferences_input(MUSIC_GENRES_COLUMNS)
     clf = get_classifier(music_genres, movie_genres)
     prediction = clf.predict(pd.DataFrame([preferences], columns=MUSIC_GENRES_COLUMNS))
+    prediction = pd.DataFrame(prediction, columns=MOVIE_GENRES_COLUMNS)
     print(f'prediction = {prediction}')
 
 
