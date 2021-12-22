@@ -15,13 +15,33 @@ def preferences_input(genres: pd.DataFrame) -> np.ndarray:
     return np.array(preferences)
 
 
+def preferences_output(genres: pd.DataFrame, preferences: np.array):
+    print()
+    perfect = 'We really recomend you:'
+    nice = 'Perhaps you would like:'
+    avoid = 'And probably you should avoid:'
+    for i, genre in enumerate(genres):
+        if preferences[0][i] > 4:
+            perfect = perfect + " " + genre + ","
+        elif preferences[0][i] > 3:
+            nice = nice + " " + genre + ","
+        elif preferences[0][i] < 2:
+            avoid = avoid + " " + genre + ","
+    perfect.rstrip(',')
+    nice.rstrip(',')
+    avoid.rstrip(',')
+    print(perfect)
+    print(nice)
+    print(avoid)
+
+
 def main():
     music_genres = pd.read_csv('data/responses.csv', usecols=MUSIC_GENRES_COLUMNS).fillna(value=3.0)
     movie_genres = pd.read_csv('data/responses.csv', usecols=MOVIE_GENRES_COLUMNS).fillna(value=3.0)
     preferences = preferences_input(MUSIC_GENRES_COLUMNS)
     clf = get_classifier(music_genres, movie_genres)
     prediction = clf.predict(pd.DataFrame([preferences], columns=MUSIC_GENRES_COLUMNS))
-    print(f'prediction = {prediction}')
+    preferences_output(MOVIE_GENRES_COLUMNS, prediction)
 
 
 if __name__ == '__main__':
