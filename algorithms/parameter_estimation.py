@@ -66,14 +66,11 @@ def main():
     }
 
     rfc_tuned_parameters = {
-        'n_estimators': [i for i in range(60, 140, 5)],  # Number of trees
+        'n_estimators': [i for i in range(135, 181, 5)],  # Number of trees
         'criterion': ['gini', 'entropy'],
-        'max_depth': [i for i in range(4, 21)],
-        'min_samples_split': [i for i in range(2, 7)],
-        'min_samples_leaf': [i for i in range(1, 7)],
-        'max_features': [None, 'auto', 'sqrt', 'log2'],
-        'bootstrap': [True, False],
-        'warm_start': [True, False]
+        'max_depth': [i for i in range(10, 21)],
+        'min_samples_split': [i for i in range(2, 5)],
+        'min_samples_leaf': [i for i in range(1, 5)]
     }
 
     music_genres, movie_genres = get_genres()
