@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 
-from algorithms.metrics import cross_validation
+from algorithms.metrics import cross_validation, custom_accuracy
 from preprocessing.preprocessing import get_genres
 
 
@@ -26,7 +26,7 @@ def main():
     n = 100
     errors = []
     for _ in range(n):
-        error = cross_validation(get_classifier_rfc, kwargs, music_genres, movie_genres, 5)
+        error = cross_validation(get_classifier_rfc, kwargs, music_genres, movie_genres, 5, custom_accuracy)
         errors.append(error)
 
     print(f'Cross-validation Error (mean of {n}) = {np.mean(errors)}')

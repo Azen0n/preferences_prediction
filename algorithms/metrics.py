@@ -88,13 +88,14 @@ def cross_validation(get_classifier: Callable[[pd.DataFrame, pd.DataFrame, dict]
                      kwargs: dict,
                      x: pd.DataFrame,
                      y: pd.DataFrame,
-                     k: int) -> float:
+                     k: int,
+                     distance: Callable[[np.ndarray, np.ndarray], float]) -> float:
     x_train, x_test, y_train, y_test = split_in_k_folds(x, y, k)
 
     errors = []
     for i in range(len(x_train)):
         clf = get_classifier(x_train[i], y_train[i], kwargs)
-        error = test_sample_total_error(clf, x_test[i], y_test[i], euclidean_distance)
+        error = test_sample_total_error(clf, x_test[i], y_test[i], distance)
         errors.append(error)
 
     return np.mean(errors)
